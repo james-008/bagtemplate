@@ -21,7 +21,7 @@ template<typename T>
         BagIter(Data *i):ptr(i) {}
         Data operator*() {return *ptr;}
         BagIter &operator++() {++ptr; return *this;}
-        //BagIter operator++(Data) {BagIter r(ptr); ++ptr; return r;}
+        BagIter operator++(int) {BagIter r(ptr); ++ptr; return r;}
         bool operator!=(const BagIter &x) {return ptr != x.ptr;}
         bool operator==(const BagIter &x) const { return ptr == x.ptr; }
       private:
