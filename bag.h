@@ -14,18 +14,18 @@ template<typename T>
   {
     static constexpr size_t DATASIZE = 5; // array size
   public:
-    using value_type = T; // create an alias for the data
+    using Data = T; // create an alias for the data
     class BagIter{
 
       public: 
-        BagIter(value_type *i):ptr(i) {}
-        value_type operator*() {return *ptr;}
+        BagIter(Data *i):ptr(i) {}
+        Data operator*() {return *ptr;}
         BagIter &operator++() {++ptr; return *this;}
-        //BagIter operator++(value_type) {BagIter r(ptr); ++ptr; return r;}
+        //BagIter operator++(Data) {BagIter r(ptr); ++ptr; return r;}
         bool operator!=(const BagIter &x) {return ptr != x.ptr;}
         bool operator==(const BagIter &x) const { return ptr == x.ptr; }
       private:
-        value_type *ptr;
+        Data *ptr;
     };
     Bag() : data{nullptr}, count{0}, capacity{DATASIZE} {}
 
@@ -37,12 +37,12 @@ template<typename T>
     Bag &operator=(Bag &&rhs);
 
     // access functions
-    const value_type &getData(const value_type) const;
-    void setData(const int, const value_type &);
-    void insert(const value_type &);
+    const Data &getData(const Data) const;
+    void setData(const int, const Data &);
+    void insert(const Data &);
     void size() const;
     size_t getCount() const { return count; }
-    void dump(const value_type &);
+    void dump(const Data &);
     void print() const;
     bool toggleFail();
     BagIter begin() {return BagIter(data);}
@@ -50,7 +50,7 @@ template<typename T>
 
   private:
     // data storage
-    value_type *data;
+    Data *data;
     bool fail;
     size_t count;
     size_t capacity;
@@ -102,7 +102,7 @@ template<typename T>
   // simple asssess functions
   // replace them with appropriate ones for assignments
   template<typename T>
-  const Bag<T>::value_type &Bag<T>::getData(const value_type i) const
+  const Bag<T>::Data &Bag<T>::getData(const Data i) const
   {
     if (i < 0 || i >= DATASIZE)
       throw std::out_of_range(std::string("index out of range"));
@@ -110,18 +110,18 @@ template<typename T>
   };
 
   template<typename T>
-  void Bag<T>::setData(const int i, const value_type &d)
+  void Bag<T>::setData(const int i, const Data &d)
   {
     if (i < 0 || i >= DATASIZE)
       throw std::out_of_range(std::string("index out of range"));
-    data[i] = (value_type)d;
+    data[i] = (Data)d;
   }
 
   template<typename T>
-  void Bag<T>::insert(const value_type &value)
+  void Bag<T>::insert(const Data &value)
   {
 	if (count == 0){
-        try {data = new value_type[DATASIZE]();}
+        try {data = new Data[DATASIZE]();}
         catch(std::bad_alloc &e){data = nullptr;}
   }
 	
@@ -139,11 +139,11 @@ template<typename T>
 		if (fail)
 			throw std::bad_alloc();
      	capacity = capacity*2;
-      value_type* temp;
-      try {temp = new value_type[capacity]();} 
+      Data* temp;
+      try {temp = new Data[capacity]();} 
       catch (const std::bad_alloc& e) {
         std::cerr << "Memory allocation failed: " << e.what() << std::endl;}
-  		memcpy(temp, data, sizeof(value_type)*capacity/2);
+  		memcpy(temp, data, sizeof(Data)*capacity/2);
       delete[] data;
 		data = temp;
     	}
@@ -155,7 +155,7 @@ template<typename T>
   }
 
   template<typename T>
-  void Bag<T>::dump(const value_type &value)
+  void Bag<T>::dump(const Data &value)
   {
     	if (count == 0)
       	throw std::underflow_error("Queue underflow");
