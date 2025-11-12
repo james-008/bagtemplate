@@ -145,15 +145,25 @@ template<typename T>
 		std::cout << "Increasing set capacity" << std::endl;
 		if (fail)
 			throw std::bad_alloc();
-     	capacity = capacity*2;
-      Data* temp;
-      try {temp = new Data[capacity]();} 
-      catch (const std::bad_alloc& e) {
-        std::cerr << "Memory allocation failed: " << e.what() << std::endl;}
-  		memcpy(temp, data, sizeof(Data)*capacity/2);
-      delete[] data;
+    capacity = capacity*2;
+    Data* temp;
+    try {temp = new Data[capacity]();} 
+    catch (const std::bad_alloc& e) {
+      std::cerr << "Memory allocation failed: " << e.what() << std::endl;}
+
+    //copies data
+    if constexpr (std::is_trivially_copyable<Data>::value) {
+      std::memcpy(temp, data, (capacity/2) * sizeof(Data));
+    } 
+    else {
+      // Non-trivial types
+      for (size_t i = 0; i < count; ++i)
+        temp[i] = std::move(data[i]);
+    }
+
+    delete[] data;
 		data = temp;
-    	}
+    }
 	
     	data[count] = value;
 	count++;
