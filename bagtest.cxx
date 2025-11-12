@@ -98,7 +98,8 @@ int main(int argc, char *argv[]) {
 
 	//sorting the records by gender and lastname
 	std::cout << "Sorting Records By Gender" << endl;
-	//(plist.begin(), plist.end(), lastname_compare);
+	//Commented out since requirement asks for templatization only
+	//std::sort(plist.begin(), plist.end(), lastname_compare);
 	auto ct = plist.begin();
 	while(ct != plist.end())
 	{
@@ -133,7 +134,6 @@ int main(int argc, char *argv[]) {
 	}
 	else
 		std::cout << "Target BMI: " << *it << std::endl;
-
 	
 
 
