@@ -7,6 +7,13 @@
  */
 #ifndef BAG_H
 #define BAG_H
+#include <iostream>
+#include <iomanip>
+#include <cstddef>
+#include <stdexcept>
+#include <string>
+#include <string.h>
+#include <cstring>
 namespace csen79
 {
 template<typename T>
